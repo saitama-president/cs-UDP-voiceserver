@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^11.11.6",
+    "@types/node": "^11.12.1",
     "@types/typescript": "^2.0.0",
     "dgram": "^1.0.1",
     "typescript": "^3.3.4000"
