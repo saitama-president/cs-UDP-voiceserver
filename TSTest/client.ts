@@ -36,4 +36,6 @@ for(var i=0;i<3;i++){
   send(Buffer.from(str));
 }
 
-
+setTimeout(()=>{
+  process.exit();
+},1000);

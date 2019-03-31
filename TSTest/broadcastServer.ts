@@ -65,13 +65,16 @@ setInterval(()=>{
       //自分自身には送信しない
       if(p.from.address == c.rinfo.address
         && p.from.port == c.rinfo.port){
-        return;
+
+        console.log("自分自身なので送らない");
+        return false;
       }
 
       server.send(p.packet,0,p.packet.length,
         c.rinfo.port,c.rinfo.address
       );
       totalBytes+=p.packet.length;
+      console.log(c.rinfo.address+":"+c.rinfo.port);
       packetCount++;
     });
   }
