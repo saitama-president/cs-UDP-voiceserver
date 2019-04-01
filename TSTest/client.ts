@@ -1,6 +1,6 @@
 import * as dgram from 'dgram'
 
-var PORT = 42222;
+var PORT = 43333;
 var HOST = '127.0.0.1';
 
 
@@ -13,7 +13,7 @@ client.on('error',e=>{
 });
 
 client.on('message',(msg,info)=>{
-  console.dir(msg);
+  /*console.dir(msg);*/
 });
 
 function send($payload:Buffer){
@@ -31,11 +31,12 @@ var message = Buffer.from('1234567890');
 //var heavy= Buffer.alloc(66000).fill("H");
 
 const str="あいうえおかきくけこさしすせそたちつてとなにぬねの";
-for(var i=0;i<3;i++){
-  var $c=str.substr( i % 20 , 4 );
-  send(Buffer.from(str));
-}
+
+//1000バイトずつ贈る
+setInterval(()=>{
+  send(Buffer.alloc(1000,2,'binary'));
+},125);
 
 setTimeout(()=>{
   process.exit();
-},1000);
+},3000);
