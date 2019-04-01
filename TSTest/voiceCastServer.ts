@@ -90,7 +90,8 @@ setInterval(()=>{
       c.rinfo.port,c.rinfo.address
     );
     totalBytes+=voiceBuff.length;
-    console.log(c.rinfo.address+":"+c.rinfo.port);
+    sendBytes+=voiceBuff.length;
+    //console.log(c.rinfo.address+":"+c.rinfo.port);
     packetCount++;
   });
   voiceBuff.fill(0);
