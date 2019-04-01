@@ -1,4 +1,5 @@
 import * as dgram from 'dgram'
+import {sprintf} from 'sprintf-js'
 
 const server = dgram.createSocket('udp4');
 let tickCount =0;
@@ -27,7 +28,7 @@ function bufferOverWrite(data:Buffer){
   //上書き位置を矯正(125msec = 1KBにする)
   let start = Math.floor(pos / 125) * 1000;
 
-  console.log("START:"+start);
+//  console.log("START:"+start);
   
   for(var i=0;i < data.length && i < (8000-start) ; i++){
     let seek:number = i + start; 
@@ -103,7 +104,21 @@ setInterval(()=>{
 
   lastTime =(new Date()).getTime();
   /*現在の状態*/
-  process.stdout.write(`\r [${tickCount}] C=${clients.length} Pa:${packetCount} Ms:${messageCount} Bytes:${sendBytes}|${recvBytes}|${totalBytes} `);
+  process.stdout.write(
+    `\r [${tickCount}] `+
+    `C=${clients.length} `+
+    `Pa:${packetCount} `+
+    `Ms:${messageCount} `+ 
+    `Bytes:${unitConv(sendBytes)}|${unitConv(recvBytes)}|${unitConv(totalBytes)} `);
   tickCount++;
 },1000);
 
+/* -h */
+function unitConv(v:number){
+  if(v<(1<<10))return sprintf("%d B",v);
+  if(v<(1<<20))return sprintf("%5.2f KB",v/(1<<10));
+  if(v<(1<<30))return sprintf("%5.2f MB",v/(1<<20));
+
+
+
+} 

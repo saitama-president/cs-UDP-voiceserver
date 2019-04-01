@@ -35,7 +35,8 @@ const str="あいうえおかきくけこさしすせそたちつてとなにぬ
 //1000バイトずつ贈る
 setInterval(()=>{
   send(Buffer.alloc(1000,2,'binary'));
-},125);
+//},125);
+},12);
 
 setTimeout(()=>{
   process.exit();
