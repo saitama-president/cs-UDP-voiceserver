@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/dotenv": "^6.1.1",
     "@types/node": "^11.12.1",
     "@types/sprintf-js": "^1.1.2",
     "@types/typescript": "^2.0.0",
     "dgram": "^1.0.1",
+    "dotenv": "^7.0.0",
     "sprintf": "^0.1.5",
     "sprintf-js": "^1.1.2",
     "typescript": "^3.3.4000"
