@@ -8,13 +8,11 @@ var PORT = 43333;
 var BGM_FILE = 'eine8kmono8b.wav';
 var HOST = '127.0.0.1';
 
-
 /**
 延々とBGMを垂れ流しにする
 (ソースは8Kbps wav)
 */
 var client = dgram.createSocket('udp4',(msg, rinfo)=>{
-  process.stdout.write(msg);
 });
 client.on('error',e=>{
   console.dir(e);
@@ -31,24 +29,34 @@ function send($payload:Buffer){
   });
 }
 
-let src=fs.createReadStream(BGM_FILE,{
-//  encoding:"binary",
-  highWaterMark:8000
-});
-var sec = 0;
+//var seek:number = 0;
+var sendTotal = 0;
 
-src.on('data',chunk=>{
-  //これはこれで一気に読み込んでしまう
-  //console.log(chunk.length); 
-  send(chunk);
-  sec+=chunk.length/8000;
-  process.stdout.write(`\r ${sec} sec send `);
-});
+function BGMLoop(){
+  var interval:any = null;
+  fs.open(BGM_FILE,'r',(status,fd)=>{
 
-
-setInterval(()=>{
-  //send(Buffer.alloc(1000,0,'binary'));
-},1000);
+     interval=setInterval(()=>{
+      if(status){
+        console.log("end");
+        return;
+      }
+      
+      var buffer = Buffer.alloc(8000);
+        fs.read(fd, buffer,0, 8000, null,(err, num,buff)=>{
+          
+          if(0==num){
+            clearInterval(interval);
+            BGMLoop();
+            console.log("Loop");
+            return;
+          }
+          //console.log("READ:"+num);
+          send(buff);
+      });
+    },1000);//1秒固定
+  });
+}
 
 
 
@@ -56,3 +64,5 @@ setInterval(()=>{
 setTimeout(()=>{
 //  process.exit();
 },3000);
+
+BGMLoop();
